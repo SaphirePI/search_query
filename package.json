@@ -1,0 +1,12 @@
+{
+  "name": "search-query",
+  "version": "1.0.0",
+  "description": "Search module to discord.js bots",
+  "main": "index.js",
+  "repository": "https://github.com/thex49/search_query.git",
+  "author": "Nefelit",
+  "license": "MIT",
+  "dependencies": {
+    "string-similarity": "^3.0.0"
+  }
+}
