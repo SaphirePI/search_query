@@ -4,7 +4,7 @@ const inject = (client_object, field) => {
         client = client_object;
         delete module.exports['inject'];
         try {
-            if (!client.dataManager) throw new Error("Sorry, discord.js only!")
+            if (!client.ws) throw new Error("Sorry, discord.js only!")
             Object.defineProperty(client, field ? field : 'query', {
                 get: function () { return module.exports; },
                 enumerable: false,
@@ -22,10 +22,10 @@ const findMember = (message, string) => {
     if (!string || string === null || !string.trim()) throw new Error('Вы не передали строку, либо она является null\'ом или содержит только пробелы');
     let { guild } = message,
         { members } = guild,
-        tags = members.map(x => x.user.tag),
-        indexes = members.map(x => x.user.id),
+        tags = members.cache.map(x => x.user.tag),
+        indexes = members.cache.map(x => x.user.id),
         { bestMatchIndex } = sm.findBestMatch(string, tags),
-        output = message.guild.members.get(indexes[bestMatchIndex]);
+        output = message.guild.members.cache.get(indexes[bestMatchIndex]);
 
     return output;
 };
@@ -35,10 +35,10 @@ const findUser = (message, string) => {
     if (!string || string === null || !string.trim()) throw new Error('Вы не передали строку, либо она является null\'ом или содержит только пробелы');
 
     let { users } = client,
-        tags = users.map(x => x.tag),
-        indexes = users.map(x => x.id),
+        tags = users.cache.map(x => x.tag),
+        indexes = users.cache.map(x => x.id),
         { bestMatchIndex } = sm.findBestMatch(string, tags),
-        output = users.get(indexes[bestMatchIndex]);
+        output = users.cache.get(indexes[bestMatchIndex]);
 
     return output;
 };
@@ -48,10 +48,10 @@ const findRole = (message, string) => {
     if (!string || string === null || !string.trim()) throw new Error('Вы не передали строку, либо она является null\'ом или содержит только пробелы');
     let { guild } = message,
         { roles } = guild,
-        tags = roles.map(x => x.name),
-        indexes = roles.map(x => x.id),
+        tags = roles.cache.map(x => x.name),
+        indexes = roles.cache.map(x => x.id),
         { bestMatchIndex } = sm.findBestMatch(string, tags),
-        output = message.guild.roles.get(indexes[bestMatchIndex]);
+        output = message.guild.roles.cache.get(indexes[bestMatchIndex]);
 
     return output;
 };
@@ -61,10 +61,10 @@ const findChannel = (message, string) => {
     if (!string || string === null || !string.trim()) throw new Error('Вы не передали строку, либо она является null\'ом или содержит только пробелы');
     let { guild } = message,
         { channels } = guild,
-        tags = channels.map(x => x.name),
-        indexes = channels.map(x => x.id),
+        tags = channels.cache.map(x => x.name),
+        indexes = channels.cache.map(x => x.id),
         { bestMatchIndex } = sm.findBestMatch(string, tags),
-        output = message.guild.channels.get(indexes[bestMatchIndex]);
+        output = message.guild.channels.cache.get(indexes[bestMatchIndex]);
 
     return output;
 };
@@ -73,10 +73,10 @@ const findGuild = (string) => {
     checkForClient()
     if (!string || string === null || !string.trim()) throw new Error('Вы не передали строку, либо она является null\'ом или содержит только пробелы');
     let { guilds } = client,
-        tags = guilds.map(x => x.name),
-        indexes = guilds.map(x => x.id),
+        tags = guilds.cache.map(x => x.name),
+        indexes = guilds.cache.map(x => x.id),
         { bestMatchIndex } = sm.findBestMatch(string, tags),
-        output = guilds.get(indexes[bestMatchIndex]);
+        output = guilds.cache.get(indexes[bestMatchIndex]);
 
     return output;
 };
